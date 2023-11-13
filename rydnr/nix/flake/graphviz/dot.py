@@ -95,13 +95,13 @@ class Dot(EventListener):
         deps = metadata.get("locks", {}).get("nodes", {})
         items = deps.items()
         transitive_nodes = []
-        # Adding transitive nodes
+        # Adding direct nodes
         result += '  node [shape="ellipse", style="filled", fillcolor="green"];\n\n'
         for node, details in deps.get("root", {}).get("inputs", {}).items():
             nodeName = self.__class__.kebab_to_camel(node)
             transitive_nodes.append(node)
             result += f'  {nodeName} [label="{node}"];\n'
-        # Adding non-transitive nodes
+        # Adding indirect nodes
         result += '  node [shape="ellipse", style="filled", fillcolor="grey"];\n\n'
         for node, details in items:
             if node not in transitive_nodes:

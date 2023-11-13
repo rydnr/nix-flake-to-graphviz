@@ -30,7 +30,7 @@
       inputs.pythoneda-shared-pythoneda-domain.follows =
         "pythoneda-shared-pythoneda-domain";
       url =
-        "github:pythoneda-shared-nix-flake/shared-artifact/0.0.5?dir=shared";
+        "github:pythoneda-shared-nix-flake/shared-artifact/0.0.6?dir=shared";
     };
     pythoneda-shared-pythoneda-application = {
       inputs.flake-utils.follows = "flake-utils";
@@ -40,12 +40,12 @@
       inputs.pythoneda-shared-pythoneda-domain.follows =
         "pythoneda-shared-pythoneda-domain";
       url =
-        "github:pythoneda-shared-pythoneda/application-artifact/0.0.12?dir=application";
+        "github:pythoneda-shared-pythoneda/application-artifact/0.0.15?dir=application";
     };
     pythoneda-shared-pythoneda-banner = {
       inputs.flake-utils.follows = "flake-utils";
       inputs.nixos.follows = "nixos";
-      url = "github:pythoneda-shared-pythoneda/banner/0.0.13";
+      url = "github:pythoneda-shared-pythoneda/banner/0.0.14";
     };
     pythoneda-shared-pythoneda-domain = {
       inputs.flake-utils.follows = "flake-utils";
@@ -68,7 +68,7 @@
       let
         org = "rydnr";
         repo = "nix-flake-to-graphviz";
-        version = "0.0.2";
+        version = "0.0.3";
         pname = "${org}-${repo}";
         pythonpackage = "rydnr.nix.flake.graphviz";
         package = builtins.replaceStrings [ "." ] [ "/" ] pythonpackage;
@@ -160,7 +160,7 @@
               pythoneda-shared-nix-flake-shared
               pythoneda-shared-pythoneda-application
               pythoneda-shared-pythoneda-domain
-              unidiff # temporary
+              #              unidiff # temporary
             ];
 
             # pythonImportsCheck = [ pythonpackage ];
@@ -178,6 +178,7 @@
             postPatch = ''
               substituteInPlace /build/$sourceRoot/entrypoint.sh \
                 --replace "@SOURCE@" "$out/bin/${entrypoint}.sh" \
+                --replace "@PYTHONEDA_EXTRA_NAMESPACES@" "rydnr" \
                 --replace "@PYTHONPATH@" "$PYTHONPATH" \
                 --replace "@ENTRYPOINT@" "$out/lib/python${pythonMajorMinorVersion}/site-packages/${package}/application/${entrypoint}.py" \
                 --replace "@BANNER@" "$out/bin/banner.sh"
