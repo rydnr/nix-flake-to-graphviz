@@ -22,6 +22,15 @@
   inputs = rec {
     flake-utils.url = "github:numtide/flake-utils/v1.0.0";
     nixos.url = "github:NixOS/nixpkgs/nixos-23.05";
+    pythoneda-shared-git-shared = {
+      inputs.flake-utils.follows = "flake-utils";
+      inputs.nixos.follows = "nixos";
+      inputs.pythoneda-shared-pythoneda-banner.follows =
+        "pythoneda-shared-pythoneda-banner";
+      inputs.pythoneda-shared-pythoneda-domain.follows =
+        "pythoneda-shared-pythoneda-domain";
+      url = "github:pythoneda-shared-git/shared-artifact/0.0.4?dir=shared";
+    };
     pythoneda-shared-nix-flake-shared = {
       inputs.flake-utils.follows = "flake-utils";
       inputs.nixos.follows = "nixos";
@@ -45,7 +54,7 @@
     pythoneda-shared-pythoneda-banner = {
       inputs.flake-utils.follows = "flake-utils";
       inputs.nixos.follows = "nixos";
-      url = "github:pythoneda-shared-pythoneda/banner/0.0.14";
+      url = "github:pythoneda-shared-pythoneda/banner/0.0.25";
     };
     pythoneda-shared-pythoneda-domain = {
       inputs.flake-utils.follows = "flake-utils";
@@ -53,7 +62,7 @@
       inputs.pythoneda-shared-pythoneda-banner.follows =
         "pythoneda-shared-pythoneda-banner";
       url =
-        "github:pythoneda-shared-pythoneda/domain-artifact/0.0.14?dir=domain";
+        "github:pythoneda-shared-pythoneda/domain-artifact/0.0.15?dir=domain";
     };
   };
   outputs = inputs:
@@ -68,7 +77,7 @@
       let
         org = "rydnr";
         repo = "nix-flake-to-graphviz";
-        version = "0.0.3";
+        version = "0.0.4";
         pname = "${org}-${repo}";
         pythonpackage = "rydnr.nix.flake.graphviz";
         package = builtins.replaceStrings [ "." ] [ "/" ] pythonpackage;
@@ -86,7 +95,7 @@
           builtins.replaceStrings [ "\n" ] [ "" ] "nixos-${nixosVersion}";
         shared = import "${pythoneda-shared-pythoneda-banner}/nix/shared.nix";
         pkgs = import nixos { inherit system; };
-        rydnr-nix-flake-to-graphviz-for = { python
+        rydnr-nix-flake-to-graphviz-for = { python, pythoneda-shared-git-shared
           , pythoneda-shared-nix-flake-shared
           , pythoneda-shared-pythoneda-application
           , pythoneda-shared-pythoneda-domain }:
@@ -112,6 +121,8 @@
               inherit homepage pname pythonMajorMinorVersion pythonpackage
                 version;
               package = builtins.replaceStrings [ "." ] [ "/" ] pythonpackage;
+              packaging = python.pkgs.packaging.version;
+              pythonedaSharedGitShared = pythoneda-shared-git-shared.version;
               pythonedaSharedNixFlakeShared =
                 pythoneda-shared-nix-flake-shared.version;
               pythonedaSharedPythonedaApplication =
@@ -156,11 +167,11 @@
 
             nativeBuildInputs = with python.pkgs; [ pip pkgs.jq poetry-core ];
             propagatedBuildInputs = with python.pkgs; [
-              pygraphviz
+              packaging # temporary
+              pythoneda-shared-git-shared
               pythoneda-shared-nix-flake-shared
               pythoneda-shared-pythoneda-application
               pythoneda-shared-pythoneda-domain
-              #              unidiff # temporary
             ];
 
             # pythonImportsCheck = [ pythonpackage ];
@@ -182,6 +193,8 @@
                 --replace "@PYTHONPATH@" "$PYTHONPATH" \
                 --replace "@ENTRYPOINT@" "$out/lib/python${pythonMajorMinorVersion}/site-packages/${package}/application/${entrypoint}.py" \
                 --replace "@BANNER@" "$out/bin/banner.sh"
+              substituteInPlace /build/$sourceRoot/${banner_file} \
+                --replace "@CUSTOM_CONTENT@" "if [[ \"\$PYTHONEDA_RYDNR_ROOT_FOLDER\" == \"\" ]]; then printf \"\033[33m[WARNING]\033[0m \033[35mPYTHONEDA_RYDNR_ROOT_FOLDER\033[36m is \033[31mnot set\033[0m. \033[36mChanges in rydnr.* packages won't be noticed! \033[0m\n\"; fi;"
             '';
 
             postInstall = ''
@@ -295,40 +308,48 @@
           rydnr-nix-flake-to-graphviz-python38 =
             rydnr-nix-flake-to-graphviz-for {
               python = pkgs.python38;
-              pythoneda-shared-pythoneda-application =
-                pythoneda-shared-pythoneda-application.packages.${system}.pythoneda-shared-pythoneda-application-python38;
+              pythoneda-shared-git-shared =
+                pythoneda-shared-git-shared.packages.${system}.pythoneda-shared-git-shared-python38;
               pythoneda-shared-nix-flake-shared =
                 pythoneda-shared-nix-flake-shared.packages.${system}.pythoneda-shared-nix-flake-shared-python38;
+              pythoneda-shared-pythoneda-application =
+                pythoneda-shared-pythoneda-application.packages.${system}.pythoneda-shared-pythoneda-application-python38;
               pythoneda-shared-pythoneda-domain =
                 pythoneda-shared-pythoneda-domain.packages.${system}.pythoneda-shared-pythoneda-domain-python38;
             };
           rydnr-nix-flake-to-graphviz-python39 =
             rydnr-nix-flake-to-graphviz-for {
               python = pkgs.python39;
-              pythoneda-shared-pythoneda-application =
-                pythoneda-shared-pythoneda-application.packages.${system}.pythoneda-shared-pythoneda-application-python39;
+              pythoneda-shared-git-shared =
+                pythoneda-shared-git-shared.packages.${system}.pythoneda-shared-git-shared-python39;
               pythoneda-shared-nix-flake-shared =
                 pythoneda-shared-nix-flake-shared.packages.${system}.pythoneda-shared-nix-flake-shared-python39;
+              pythoneda-shared-pythoneda-application =
+                pythoneda-shared-pythoneda-application.packages.${system}.pythoneda-shared-pythoneda-application-python39;
               pythoneda-shared-pythoneda-domain =
                 pythoneda-shared-pythoneda-domain.packages.${system}.pythoneda-shared-pythoneda-domain-python39;
             };
           rydnr-nix-flake-to-graphviz-python310 =
             rydnr-nix-flake-to-graphviz-for {
               python = pkgs.python310;
-              pythoneda-shared-pythoneda-application =
-                pythoneda-shared-pythoneda-application.packages.${system}.pythoneda-shared-pythoneda-application-python310;
+              pythoneda-shared-git-shared =
+                pythoneda-shared-git-shared.packages.${system}.pythoneda-shared-git-shared-python310;
               pythoneda-shared-nix-flake-shared =
                 pythoneda-shared-nix-flake-shared.packages.${system}.pythoneda-shared-nix-flake-shared-python310;
+              pythoneda-shared-pythoneda-application =
+                pythoneda-shared-pythoneda-application.packages.${system}.pythoneda-shared-pythoneda-application-python310;
               pythoneda-shared-pythoneda-domain =
                 pythoneda-shared-pythoneda-domain.packages.${system}.pythoneda-shared-pythoneda-domain-python310;
             };
           rydnr-nix-flake-to-graphviz-python311 =
             rydnr-nix-flake-to-graphviz-for {
               python = pkgs.python311;
-              pythoneda-shared-pythoneda-application =
-                pythoneda-shared-pythoneda-application.packages.${system}.pythoneda-shared-pythoneda-application-python311;
+              pythoneda-shared-git-shared =
+                pythoneda-shared-git-shared.packages.${system}.pythoneda-shared-git-shared-python311;
               pythoneda-shared-nix-flake-shared =
                 pythoneda-shared-nix-flake-shared.packages.${system}.pythoneda-shared-nix-flake-shared-python311;
+              pythoneda-shared-pythoneda-application =
+                pythoneda-shared-pythoneda-application.packages.${system}.pythoneda-shared-pythoneda-application-python311;
               pythoneda-shared-pythoneda-domain =
                 pythoneda-shared-pythoneda-domain.packages.${system}.pythoneda-shared-pythoneda-domain-python311;
             };

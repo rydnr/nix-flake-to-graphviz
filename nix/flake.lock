@@ -83,7 +83,7 @@
           "nixos"
         ],
         "pythoneda-shared-artifact-events": "pythoneda-shared-artifact-events",
-        "pythoneda-shared-git-shared": "pythoneda-shared-git-shared_2",
+        "pythoneda-shared-git-shared": "pythoneda-shared-git-shared_3",
         "pythoneda-shared-nix-flake-shared": "pythoneda-shared-nix-flake-shared_2",
         "pythoneda-shared-pythoneda-banner": [
           "pythoneda-shared-pythoneda-application",
@@ -114,6 +114,38 @@
     "pythoneda-shared-git-shared": {
       "inputs": {
         "flake-utils": [
+          "flake-utils"
+        ],
+        "nixos": [
+          "nixos"
+        ],
+        "pythoneda-shared-pythoneda-banner": [
+          "pythoneda-shared-pythoneda-banner"
+        ],
+        "pythoneda-shared-pythoneda-domain": [
+          "pythoneda-shared-pythoneda-domain"
+        ]
+      },
+      "locked": {
+        "dir": "shared",
+        "lastModified": 1698154770,
+        "narHash": "sha256-qOK1dz5UAcHyy+W+HEtO5aivx3ZOGZziV0Tgo+41+cI=",
+        "owner": "pythoneda-shared-git",
+        "repo": "shared-artifact",
+        "rev": "f4696b62702342725b4d97205763432e9c844525",
+        "type": "github"
+      },
+      "original": {
+        "dir": "shared",
+        "owner": "pythoneda-shared-git",
+        "ref": "0.0.4",
+        "repo": "shared-artifact",
+        "type": "github"
+      }
+    },
+    "pythoneda-shared-git-shared_2": {
+      "inputs": {
+        "flake-utils": [
           "pythoneda-shared-nix-flake-shared",
           "flake-utils"
         ],
@@ -147,7 +179,7 @@
         "type": "github"
       }
     },
-    "pythoneda-shared-git-shared_2": {
+    "pythoneda-shared-git-shared_3": {
       "inputs": {
         "flake-utils": [
           "pythoneda-shared-pythoneda-application",
@@ -187,7 +219,7 @@
         "type": "github"
       }
     },
-    "pythoneda-shared-git-shared_3": {
+    "pythoneda-shared-git-shared_4": {
       "inputs": {
         "flake-utils": [
           "pythoneda-shared-pythoneda-application",
@@ -239,7 +271,7 @@
         "nixos": [
           "nixos"
         ],
-        "pythoneda-shared-git-shared": "pythoneda-shared-git-shared",
+        "pythoneda-shared-git-shared": "pythoneda-shared-git-shared_2",
         "pythoneda-shared-pythoneda-banner": [
           "pythoneda-shared-pythoneda-banner"
         ],
@@ -277,7 +309,7 @@
           "pythoneda-shared-artifact-shared",
           "nixos"
         ],
-        "pythoneda-shared-git-shared": "pythoneda-shared-git-shared_3",
+        "pythoneda-shared-git-shared": "pythoneda-shared-git-shared_4",
         "pythoneda-shared-pythoneda-banner": [
           "pythoneda-shared-pythoneda-application",
           "pythoneda-shared-artifact-shared",
@@ -351,16 +383,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1699887378,
-        "narHash": "sha256-/nuQLhfvz7q/1oJw5kyTV8pjpbrva3rjkXv4c9uWJDM=",
+        "lastModified": 1699966139,
+        "narHash": "sha256-bjBBAguwdVpGDeXcjEfbOFKSMfz6I8IaA5KBbEBU5nQ=",
         "owner": "pythoneda-shared-pythoneda",
         "repo": "banner",
-        "rev": "db254a4c04e92b6ed9ac50b511baf9974cd4b588",
+        "rev": "6f9eba6ef4fcac366860f96fa0d2735f23f01f9e",
         "type": "github"
       },
       "original": {
         "owner": "pythoneda-shared-pythoneda",
-        "ref": "0.0.14",
+        "ref": "0.0.25",
         "repo": "banner",
         "type": "github"
       }
@@ -379,17 +411,17 @@
       },
       "locked": {
         "dir": "domain",
-        "lastModified": 1699554960,
-        "narHash": "sha256-66lxvOQYvP9ACBj5YgbKbLPmHSB/OWC0lNCKTK9K+YM=",
+        "lastModified": 1699905020,
+        "narHash": "sha256-roXIDrJS1RgK/WmV6O1w4sPzUCPQ6iZKwmhgEIQoSVQ=",
         "owner": "pythoneda-shared-pythoneda",
         "repo": "domain-artifact",
-        "rev": "3cc0b2c02ed347b012410cb7c7a86f85eae98037",
+        "rev": "96159eec60dd895425b4c14be79251e1a2b8607f",
         "type": "github"
       },
       "original": {
         "dir": "domain",
         "owner": "pythoneda-shared-pythoneda",
-        "ref": "0.0.14",
+        "ref": "0.0.15",
         "repo": "domain-artifact",
         "type": "github"
       }
@@ -434,6 +466,7 @@
       "inputs": {
         "flake-utils": "flake-utils",
         "nixos": "nixos",
+        "pythoneda-shared-git-shared": "pythoneda-shared-git-shared",
         "pythoneda-shared-nix-flake-shared": "pythoneda-shared-nix-flake-shared",
         "pythoneda-shared-pythoneda-application": "pythoneda-shared-pythoneda-application",
         "pythoneda-shared-pythoneda-banner": "pythoneda-shared-pythoneda-banner",

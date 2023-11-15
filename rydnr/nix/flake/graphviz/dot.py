@@ -18,13 +18,15 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
-from pythoneda import EventListener, listen, primary_key_attribute
+import abc
+from pythoneda import EventListener, listen, Port, primary_key_attribute
 from pythoneda.shared.nix_flake import NixFlakeMetadata
+import re
 from rydnr.nix.flake.graphviz.events import DotRequested
 from typing import Dict
 
 
-class Dot(EventListener):
+class Dot(EventListener, Port, abc.ABC):
     """
     Creates a dot file representing the dependencies of a given Nix flake.
 
@@ -37,47 +39,84 @@ class Dot(EventListener):
         - None
     """
 
-    def __init__(self, flakeFolder: str, outputFile: str):
+    _enabled = True
+
+    def __init__(self):
         """
         Creates a new Dot instance.
-        :param flakeFolder: The flake folder.
-        :type flakeFolder: str
-        :param outputFile: The output file.
-        :type outputFile: str
         """
         super().__init__()
-        self._flake_folder = flakeFolder
-        self._output_file = outputFile
 
-    @property
-    @primary_key_attribute
-    def flake_folder(self) -> str:
+    @classmethod
+    def is_enabled(cls) -> bool:
         """
-        Retrieves the flake folder.
-        :return: Such folder.
-        :rtype: str
+        Checks if the class is enabled or not.
+        :return: True in such case.
+        :rtype: bool
         """
-        return self._flake_folder
+        return cls._enabled
 
-    @property
-    @primary_key_attribute
-    def output_file(self) -> str:
+    @classmethod
+    def set_enabled(cls, flag: bool):
         """
-        Retrieves the output file.
-        :return: Such path.
-        :rtype: str
+        Enables or disables all classes.
+        :param flag: The flag.
+        :type flag: bool
         """
-        return self._output_file
+        cls._enabled = flag
 
-    def dot(self) -> str:
+    enabled = property(is_enabled, set_enabled)
+
+    def dot(self, flakeFolder: str) -> str:
         """
         Retrieves a dot representation of the flake metadata.
+        :param flakeFolder: The flake folder.
+        :type flakeFolder: str
         :return: Such content.
         :rtype: str
         """
         return self._convert_to_dot_format(
-            NixFlakeMetadata.from_folder(self.flake_folder).metadata
+            NixFlakeMetadata.from_folder(flakeFolder).metadata
         )
+
+    def _normalize_node_name(self, nodeName: str) -> str:
+        """
+        Normalizes given name, according to Nix flake conventions.
+        :param nodeName: The node name.
+        :type nodeName: str
+        :return: The normalized name.
+        :rtype: str
+        """
+        return re.sub(r"_\d+$", "", nodeName)
+
+    def _build_label(self, node: str, version: str = None) -> str:
+        """
+        Builds a label for given node.
+        :param node: The node name.
+        :type node: str
+        :param version: The version.
+        :type version: Dict
+        :return: The label.
+        :rtype: str
+        """
+        result = None
+        if version is None:
+            result = node
+        else:
+            result = f"{node}\n{version}"
+        return result
+
+    def _get_version(self, node, content: Dict) -> str:
+        """
+        Retrieves the node version.
+        :param node: The node.
+        :type node: Any
+        :param content: The node content.
+        :type content: Dict
+        :return: The version.
+        :rtype: str
+        """
+        return None
 
     def _convert_to_dot_format(self, metadata: Dict) -> str:
         """
@@ -94,20 +133,64 @@ class Dot(EventListener):
 
         deps = metadata.get("locks", {}).get("nodes", {})
         items = deps.items()
-        transitive_nodes = []
-        # Adding direct nodes
+        direct_nodes = []
+        direct_nodes_with_duplicates = []
+        duplicated_nodes = []
+        node_versions = {}
+        for node, details in deps.get("root", {}).get("inputs", {}).items():
+            version = self._get_version(node, deps[node])
+            normalized_name = self._normalize_node_name(node)
+            node_versions[normalized_name] = version
+            node_versions[node] = version
+            direct_nodes.append(node)
+        for node, details in items:
+            if node not in direct_nodes:
+                if "locked" in details:
+                    normalized_name = self._normalize_node_name(node)
+                    version = self._get_version(node, deps[node])
+                    if node_versions.get(normalized_name, None) is None:
+                        node_versions[normalized_name] = version
+                    else:
+                        direct_nodes_with_duplicates.append(normalized_name)
+                        duplicated_nodes.append(node)
+                    node_versions[node] = version
+
+        print(direct_nodes_with_duplicates)
+        # Direct nodes
         result += '  node [shape="ellipse", style="filled", fillcolor="green"];\n\n'
         for node, details in deps.get("root", {}).get("inputs", {}).items():
-            nodeName = self.__class__.kebab_to_camel(node)
-            transitive_nodes.append(node)
-            result += f'  {nodeName} [label="{node}"];\n'
-        # Adding indirect nodes
-        result += '  node [shape="ellipse", style="filled", fillcolor="grey"];\n\n'
+            normalized_name = self._normalize_node_name(node)
+            if normalized_name not in direct_nodes_with_duplicates:
+                node_name = self.__class__.kebab_to_camel(node)
+                label = self._build_label(normalized_name, node_versions[node])
+                result += f'  {node_name} [label="{label}"];\n'
+        result += '  node [shape="ellipse", style="filled", fillcolor="darkgreen"];\n\n'
+        for node, details in deps.get("root", {}).get("inputs", {}).items():
+            normalized_name = self._normalize_node_name(node)
+            if normalized_name in direct_nodes_with_duplicates:
+                node_name = self.__class__.kebab_to_camel(node)
+                label = self._build_label(normalized_name, node_versions[node])
+                result += f'  {node_name} [label="{label}"];\n'
+
+        # Indirect nodes
+        result += '  node [shape="rectangle", style="filled", fillcolor="grey"];\n\n'
         for node, details in items:
-            if node not in transitive_nodes:
-                nodeName = self.__class__.kebab_to_camel(node)
+            if node not in direct_nodes and node not in duplicated_nodes:
+                normalized_name = self._normalize_node_name(node)
+                node_name = self.__class__.kebab_to_camel(node)
                 if "locked" in details:
-                    result += f'  {nodeName} [label="{node}"];\n'
+                    label = self._build_label(normalized_name, node_versions[node])
+                    result += f'  {node_name} [label="{label}"];\n'
+
+        # Duplicated indirect nodes
+        result += '  node [shape="rectangle", style="filled", fillcolor="red"];\n\n'
+        for node, details in items:
+            if node not in direct_nodes and node in duplicated_nodes:
+                normalized_name = self._normalize_node_name(node)
+                node_name = self.__class__.kebab_to_camel(node)
+                if "locked" in details:
+                    label = self._build_label(normalized_name, node_versions[node])
+                    result += f'  {node_name} [label="{label}"];\n'
 
         result += "\n  // dependency graph\n"
         # Adding edges
@@ -123,14 +206,38 @@ class Dot(EventListener):
         result += "}\n"
         return result
 
-    def generate_output(self):
+    def generate_output(self, flakeFolder: str, outputFile: str):
         """
         Generates the output file.
+        :param flakeFolder: The flake folder.
+        :type flakeFolder: str
+        :param outputFile: The output file.
+        :type outputFile: str
         """
-        with open(self.output_file, "w") as file:
-            file.write(self.dot())
+        with open(outputFile, "w") as file:
+            file.write(self.dot(flakeFolder))
 
-        self.__class__.logger().info(f"{self.output_file} file created successfully")
+        Dot.logger().info(f"{outputFile} file created successfully by {self.__class__}")
+
+    @classmethod
+    @abc.abstractmethod
+    def instance(cls):
+        """
+        Retrieves an instance.
+        :return: A Dot instance.
+        :rtype: rydnr.nix.flake.graphviz.Dot
+        """
+        pass
+
+    @classmethod
+    @abc.abstractmethod
+    def priority(cls) -> int:
+        """
+        Retrieves the priority of the implementation.
+        :return: The priority value. The lower, the more priorized.
+        :rtype: int
+        """
+        pass
 
     @classmethod
     @listen(DotRequested)
@@ -140,5 +247,7 @@ class Dot(EventListener):
         :param event: The event.
         :type event: rydnr.nix.flake.graphviz.events.DotRequested
         """
-        dot = Dot(event.flake_folder, event.output_file)
-        dot.generate_output()
+        if Dot.enabled:
+            instance = cls.instance()
+            if instance is not None:
+                instance.generate_output(event.flake_folder, event.output_file)
