@@ -3,7 +3,7 @@ rydnr/nix/flake/graphviz/infrastructure/__init__.py
 
 This file ensures rydnr.nix.flake.graphviz.infrastructure is a namespace.
 
-Copyright (C) 2023-today rydnr's nix-flake-to-graphviz
+Copyright (C) 2023-today rydnr's rydnr/nix-flake-to-graphviz
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -19,6 +19,3 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 __path__ = __import__("pkgutil").extend_path(__path__, __name__)
-
-from .default_dot import DefaultDot
-from .github_dot import GithubDot

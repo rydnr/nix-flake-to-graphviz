@@ -19,7 +19,6 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 import asyncio
-from rydnr.nix.flake.graphviz.infrastructure import GithubDot
 from pythoneda.application import PythonEDA
 
 
@@ -51,14 +50,6 @@ class NixFlakeToGraphviz(PythonEDA):
         except ImportError:
             pass
         super().__init__(banner, __file__)
-
-    async def accept_github_token(self, token: str):
-        """
-        Retrieves the github token from a primary port.
-        :param token: The token.
-        :type token: str
-        """
-        GithubDot.initialize(token)
 
 
 if __name__ == "__main__":

@@ -29,7 +29,7 @@
         "pythoneda-shared-pythoneda-banner";
       inputs.pythoneda-shared-pythoneda-domain.follows =
         "pythoneda-shared-pythoneda-domain";
-      url = "github:pythoneda-shared-git/shared-artifact/0.0.4?dir=shared";
+      url = "github:pythoneda-shared-git/shared-artifact/0.0.5?dir=shared";
     };
     pythoneda-shared-nix-flake-shared = {
       inputs.flake-utils.follows = "flake-utils";
@@ -39,7 +39,7 @@
       inputs.pythoneda-shared-pythoneda-domain.follows =
         "pythoneda-shared-pythoneda-domain";
       url =
-        "github:pythoneda-shared-nix-flake/shared-artifact/0.0.6?dir=shared";
+        "github:pythoneda-shared-nix-flake/shared-artifact/0.0.7?dir=shared";
     };
     pythoneda-shared-pythoneda-application = {
       inputs.flake-utils.follows = "flake-utils";
@@ -49,7 +49,7 @@
       inputs.pythoneda-shared-pythoneda-domain.follows =
         "pythoneda-shared-pythoneda-domain";
       url =
-        "github:pythoneda-shared-pythoneda/application-artifact/0.0.15?dir=application";
+        "github:pythoneda-shared-pythoneda/application-artifact/0.0.18?dir=application";
     };
     pythoneda-shared-pythoneda-banner = {
       inputs.flake-utils.follows = "flake-utils";
@@ -62,7 +62,7 @@
       inputs.pythoneda-shared-pythoneda-banner.follows =
         "pythoneda-shared-pythoneda-banner";
       url =
-        "github:pythoneda-shared-pythoneda/domain-artifact/0.0.15?dir=domain";
+        "github:pythoneda-shared-pythoneda/domain-artifact/0.0.16?dir=domain";
     };
     stringtemplate3 = {
       inputs.flake-utils.follows = "flake-utils";
@@ -82,7 +82,7 @@
       let
         org = "rydnr";
         repo = "nix-flake-to-graphviz";
-        version = "0.0.4";
+        version = "0.0.6";
         pname = "${org}-${repo}";
         pythonpackage = "rydnr.nix.flake.graphviz";
         package = builtins.replaceStrings [ "." ] [ "/" ] pythonpackage;

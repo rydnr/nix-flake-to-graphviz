@@ -21,7 +21,7 @@ group FlakeNix;
 
 graph(flake) ::= <<
 digraph "<flake.title>" {
-  rankdir=TD;
+  rankdir=LR;
   compound=true;
   label="<flake.title>";
 
