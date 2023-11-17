@@ -64,6 +64,11 @@
       url =
         "github:pythoneda-shared-pythoneda/domain-artifact/0.0.15?dir=domain";
     };
+    stringtemplate3 = {
+      inputs.flake-utils.follows = "flake-utils";
+      inputs.nixos.follows = "nixos";
+      url = "github:rydnr/nix-flakes/stringtemplate3-3.1?dir=stringtemplate3";
+    };
   };
   outputs = inputs:
     with inputs;
@@ -98,7 +103,7 @@
         rydnr-nix-flake-to-graphviz-for = { python, pythoneda-shared-git-shared
           , pythoneda-shared-nix-flake-shared
           , pythoneda-shared-pythoneda-application
-          , pythoneda-shared-pythoneda-domain }:
+          , pythoneda-shared-pythoneda-domain, stringtemplate3 }:
           let
             pnameWithUnderscores =
               builtins.replaceStrings [ "-" ] [ "_" ] pname;
@@ -130,6 +135,7 @@
               pythonedaSharedPythonedaDomain =
                 pythoneda-shared-pythoneda-domain.version;
               src = pyprojectTemplateFile;
+              stringtemplate3 = stringtemplate3.version;
             };
             bannerTemplateFile =
               "${pythoneda-shared-pythoneda-banner}/templates/banner.py.template";
@@ -167,11 +173,12 @@
 
             nativeBuildInputs = with python.pkgs; [ pip pkgs.jq poetry-core ];
             propagatedBuildInputs = with python.pkgs; [
-              packaging # temporary
+              packaging # temporary until new version of pythoneda-shared-git/shared
               pythoneda-shared-git-shared
               pythoneda-shared-nix-flake-shared
               pythoneda-shared-pythoneda-application
               pythoneda-shared-pythoneda-domain
+              stringtemplate3
             ];
 
             # pythonImportsCheck = [ pythonpackage ];
@@ -316,6 +323,8 @@
                 pythoneda-shared-pythoneda-application.packages.${system}.pythoneda-shared-pythoneda-application-python38;
               pythoneda-shared-pythoneda-domain =
                 pythoneda-shared-pythoneda-domain.packages.${system}.pythoneda-shared-pythoneda-domain-python38;
+              stringtemplate3 =
+                stringtemplate3.packages.${system}.stringtemplate3-python38;
             };
           rydnr-nix-flake-to-graphviz-python39 =
             rydnr-nix-flake-to-graphviz-for {
@@ -328,6 +337,8 @@
                 pythoneda-shared-pythoneda-application.packages.${system}.pythoneda-shared-pythoneda-application-python39;
               pythoneda-shared-pythoneda-domain =
                 pythoneda-shared-pythoneda-domain.packages.${system}.pythoneda-shared-pythoneda-domain-python39;
+              stringtemplate3 =
+                stringtemplate3.packages.${system}.stringtemplate3-python39;
             };
           rydnr-nix-flake-to-graphviz-python310 =
             rydnr-nix-flake-to-graphviz-for {
@@ -340,6 +351,8 @@
                 pythoneda-shared-pythoneda-application.packages.${system}.pythoneda-shared-pythoneda-application-python310;
               pythoneda-shared-pythoneda-domain =
                 pythoneda-shared-pythoneda-domain.packages.${system}.pythoneda-shared-pythoneda-domain-python310;
+              stringtemplate3 =
+                stringtemplate3.packages.${system}.stringtemplate3-python310;
             };
           rydnr-nix-flake-to-graphviz-python311 =
             rydnr-nix-flake-to-graphviz-for {
@@ -352,6 +365,8 @@
                 pythoneda-shared-pythoneda-application.packages.${system}.pythoneda-shared-pythoneda-application-python311;
               pythoneda-shared-pythoneda-domain =
                 pythoneda-shared-pythoneda-domain.packages.${system}.pythoneda-shared-pythoneda-domain-python311;
+              stringtemplate3 =
+                stringtemplate3.packages.${system}.stringtemplate3-python311;
             };
         };
       });

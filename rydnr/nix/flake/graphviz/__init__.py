@@ -20,4 +20,5 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 __path__ = __import__("pkgutil").extend_path(__path__, __name__)
 
+from .nix_flake_metadata_decorator import NixFlakeMetadataDecorator
 from .dot import Dot

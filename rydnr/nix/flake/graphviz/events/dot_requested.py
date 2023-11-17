@@ -34,26 +34,26 @@ class DotRequested(Event):
         - None
     """
 
-    def __init__(self, flakeFolder: str, outputFile: str):
+    def __init__(self, flakeRef: str, outputFile: str):
         """
         Creates a new DotRequested instance.
-        :param flakeFolder: The flake folder.
-        :type flakeFolder: str
+        :param flakeRef: The flake reference (either a folder or an url).
+        :type flakeRef: str
         :param outputFile: The output file.
         :type outputFile: str
         """
         super().__init__()
-        self._flake_folder = flakeFolder
+        self._flake_ref = flakeRef
         self._output_file = outputFile
 
     @property
-    def flake_folder(self) -> str:
+    def flake_ref(self) -> str:
         """
-        Retrieves the flake folder.
-        :return: Such folder.
+        Retrieves the flake reference.
+        :return: The folder or url of the flake.
         :rtype: str
         """
-        return self._flake_folder
+        return self._flake_ref
 
     @property
     def output_file(self) -> str:

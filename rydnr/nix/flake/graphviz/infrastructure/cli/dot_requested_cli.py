@@ -64,10 +64,15 @@ class DotRequestedCli(BaseObject, PrimaryPort):
         :param app: The PythonEDA instance.
         :type app: PythonEDA
         """
-        parser = argparse.ArgumentParser(description="Provide the flake folder")
+        parser = argparse.ArgumentParser(
+            description="Creates a dot file representing the dependency graph of a Nix flake"
+        )
 
         parser.add_argument(
-            "-f", "--flake-folder", required=True, help="The flake folder"
+            "-f",
+            "--flake-ref",
+            required=True,
+            help="The flake reference (either a folder or an url)",
         )
         parser.add_argument(
             "-o", "--output-file", required=True, help="The output file"
@@ -75,4 +80,4 @@ class DotRequestedCli(BaseObject, PrimaryPort):
 
         args, unknown_args = parser.parse_known_args()
 
-        await app.accept(DotRequested(args.flake_folder, args.output_file))
+        await app.accept(DotRequested(args.flake_ref, args.output_file))

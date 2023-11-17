@@ -1,0 +1,121 @@
+// templates/dot.stg
+//
+// This file defines the template for graphviz/dot dependency graphs of Nix flakes.
+//
+// Copyright (C) 2023-today rydnr's rydnr/nix-flake-to-graphviz
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.
+//
+group FlakeNix;
+
+graph(flake) ::= <<
+digraph "<flake.title>" {
+  rankdir=TD;
+  compound=true;
+  label="<flake.title>";
+
+  <root()>
+
+  <inputs_with_no_duplicates(deps=flake.inputs_with_no_duplicates)>
+
+  <inputs_with_duplicates_with_same_version(deps=flake.inputs_with_duplicates_with_same_version)>
+
+  <inputs_with_duplicates_with_different_versions(deps=flake.inputs_with_duplicates_with_different_versions)>
+
+  <indirect_inputs_with_no_duplicates(deps=flake.indirect_inputs_with_no_duplicates)>
+
+  <indirect_inputs_with_duplicates_with_same_version(deps=flake.indirect_inputs_with_duplicates_with_same_version)>
+
+  <indirect_inputs_with_duplicates_with_different_versions(deps=flake.indirect_inputs_with_duplicates_with_different_versions)>
+
+  <input_edges(deps=flake.inputs)>
+
+  <edges(edges=flake.all_edges)>
+
+  <edges_linking_duplicates(edges=flake.edges_for_duplicated_nodes)>
+}
+>>
+
+root() ::= <<
+// root node
+root [label="inputs", shape="circle", fillcolor="#F9F7F3", color="black", fontcolor="black", fixedsize="false"];
+>>
+
+inputs_with_no_duplicates(deps) ::= <<
+// direct inputs with no duplicates
+node [shape="egg", style="filled", fontcolor="black", color="#B5E2FA", fillcolor="#B5E2FA"];
+<deps: { dep | <input(dep=dep)> }; separator="\n">
+>>
+
+inputs_with_duplicates_with_same_version(deps) ::= <<
+// direct inputs with duplicates with the same version
+node [shape="egg", style="filled", fontcolor="white", color="#0FA3B1", fillcolor="#0FA3B1"];
+<deps: { dep | <input(dep=dep)> }; separator="\n">
+>>
+
+inputs_with_duplicates_with_different_versions(deps) ::= <<
+// direct inputs with duplicates with different versions
+node [shape="egg", style="filled", fontcolor="white", color="#89023E", fillcolor="#89023E"];
+<deps: { dep | <input(dep=dep)> }; separator="\n">
+>>
+
+indirect_inputs_with_no_duplicates(deps) ::= <<
+// indirect inputs with no duplicates
+node [shape="rectangle", style="filled", fontcolor="black", color="#EDDEA4", fillcolor="#EDDEA4"];
+<deps: { dep | <input(dep=dep)> }; separator="\n">
+>>
+
+indirect_inputs_with_duplicates_with_same_version(deps) ::= <<
+// indirect inputs with duplicates with the same version
+node [shape="rectangle", style="filled", fontcolor="black", color="#F7A072", fillcolor="#F7A072"];
+<deps: { dep | <input(dep=dep)> }; separator="\n">
+>>
+
+indirect_inputs_with_duplicates_with_different_versions(deps) ::= <<
+// indirect inputs with duplicates with different versions
+node [shape="rectangle", style="filled", fontcolor="black", color="#C08497", fillcolor="#C08497"];
+<deps: { dep | <input(dep=dep)> }; separator="\n">
+>>
+
+label(dep) ::= <<
+<dep.normalized_name>\n<dep.version>
+>>
+
+input(dep) ::= <<
+<dep.name_in_camelcase> [label="<label(dep=dep)>"];
+>>
+
+edges(edges) ::= <<
+<edges: { edge | <edge(source=edge.source.name_in_camelcase, destination=edge.destination.name_in_camelcase)> }; separator="\n">
+>>
+
+input_edges(deps) ::= <<
+<deps: { dep | <input_edge(source="root", destination=dep.name_in_camelcase)> }; separator="\n">
+>>
+
+input_edge(source, destination) ::= <<
+<source> -\> <destination> [color="#656D4A"];
+>>
+
+edge(source, destination) ::= <<
+<source> -\> <destination> [color="#A4AC86"];
+>>
+
+edges_linking_duplicates(edges) ::= <<
+<edges: { edge | <edge_linking_duplicates(source=edge.source, destination=edge.destination)> }; separator="\n">
+>>
+
+edge_linking_duplicates(source, destination) ::= <<
+<source.name_in_camelcase> -\> <destination.name_in_camelcase> [style=dotted, dir=both, color="#414833"];
+>>
