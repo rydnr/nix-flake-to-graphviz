@@ -20,14 +20,14 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 from .nix_flake_metadata_decorator import NixFlakeMetadataDecorator
 from pathlib import Path
-from pythoneda import EventListener, listen, Port, primary_key_attribute
+from pythoneda import EventListener, listen, primary_key_attribute
 from pythoneda.shared.nix_flake import NixFlakeMetadata
 from rydnr.nix.flake.graphviz.events import DotRequested
 from stringtemplate3 import StringTemplateGroup
 from typing import Dict
 
 
-class Dot(EventListener, Port):
+class Dot(EventListener):
     """
     Creates a dot file representing the dependencies of a given Nix flake.
 
