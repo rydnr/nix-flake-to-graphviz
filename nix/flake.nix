@@ -52,7 +52,7 @@
     pythoneda-shared-pythoneda-banner = {
       inputs.flake-utils.follows = "flake-utils";
       inputs.nixos.follows = "nixos";
-      url = "github:pythoneda-shared-pythoneda-def/banner/0.0.24";
+      url = "github:pythoneda-shared-pythoneda-def/banner/0.0.27";
     };
     pythoneda-shared-pythoneda-domain = {
       inputs.flake-utils.follows = "flake-utils";
@@ -194,6 +194,7 @@
                 --replace "@SOURCE@" "$out/bin/${entrypoint}.sh" \
                 --replace "@PYTHONEDA_EXTRA_NAMESPACES@" "rydnr" \
                 --replace "@PYTHONPATH@" "$PYTHONPATH" \
+                --replace "@CUSTOM_CONTENT@" "" \
                 --replace "@ENTRYPOINT@" "$out/lib/python${pythonMajorMinorVersion}/site-packages/${package}/application/${entrypoint}.py" \
                 --replace "@BANNER@" "$out/bin/banner.sh"
             '';
