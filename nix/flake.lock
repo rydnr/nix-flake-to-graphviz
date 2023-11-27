@@ -341,16 +341,16 @@
         "pythoneda-shared-pythoneda-infrastructure": "pythoneda-shared-pythoneda-infrastructure"
       },
       "locked": {
-        "lastModified": 1701070766,
-        "narHash": "sha256-uAwhsT/ANFhw8TaEVPqiWu5WsakQ1GHXNFRYW+QH5Yo=",
+        "lastModified": 1701072844,
+        "narHash": "sha256-kvJeJUwgvxhD18bRq1fix76k+9q1yQrTprPOGl44utY=",
         "owner": "pythoneda-shared-pythoneda-def",
         "repo": "application",
-        "rev": "e80d79d6549577be10566d8d233dcef6e62aeddb",
+        "rev": "45180df729d06fbe9b01b922d8e25a895eb8c07b",
         "type": "github"
       },
       "original": {
         "owner": "pythoneda-shared-pythoneda-def",
-        "ref": "0.0.4",
+        "ref": "0.0.5",
         "repo": "application",
         "type": "github"
       }
