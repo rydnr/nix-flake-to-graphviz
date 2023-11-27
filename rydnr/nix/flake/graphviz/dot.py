@@ -100,7 +100,7 @@ class Dot(EventListener):
                 os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
             ),
             "templates",
-            file_name,
+            fileName,
         )
 
     def _convert_to_dot_format(self, metadata: NixFlakeMetadata) -> str:
