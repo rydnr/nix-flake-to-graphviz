@@ -94,7 +94,13 @@ class Dot(EventListener):
         :return: The path of the template.
         :rtype: str
         """
-         return os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__)))), 'templates', file_name)
+        return os.path.join(
+            os.path.dirname(
+                os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
+            ),
+            "templates",
+            file_name,
+        )
 
     def _convert_to_dot_format(self, metadata: NixFlakeMetadata) -> str:
         """
