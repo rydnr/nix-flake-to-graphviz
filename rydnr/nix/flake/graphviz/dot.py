@@ -19,6 +19,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 from .nix_flake_metadata_decorator import NixFlakeMetadataDecorator
+import os
 from pathlib import Path
 from pythoneda import EventListener, listen, primary_key_attribute
 from pythoneda.shared.nix_flake import NixFlakeMetadata
