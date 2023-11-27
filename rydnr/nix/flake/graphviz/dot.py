@@ -86,6 +86,16 @@ class Dot(EventListener):
         """
         return None
 
+    def _get_template_path(self, fileName: str) -> str:
+        """
+        Retrieves the path of the template matching given name.
+        :param fileName: The name of the file of the template.
+        :type fileName: str
+        :return: The path of the template.
+        :rtype: str
+        """
+         return os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__)))), 'templates', file_name)
+
     def _convert_to_dot_format(self, metadata: NixFlakeMetadata) -> str:
         """
         Converts given flake metadata to dot format.
@@ -96,7 +106,7 @@ class Dot(EventListener):
         """
         root_template = None
 
-        with open(Path("templates") / f"dot.stg", "r", encoding="utf-8") as f:
+        with open(self._get_template_path("dot.stg"), "r", encoding="utf-8") as f:
             # Create a group from the string content
             group = StringTemplateGroup(name="graph", file=f, rootDir="templates")
 
