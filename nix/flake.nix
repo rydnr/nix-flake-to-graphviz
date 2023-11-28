@@ -29,7 +29,7 @@
         "pythoneda-shared-pythoneda-banner";
       inputs.pythoneda-shared-pythoneda-domain.follows =
         "pythoneda-shared-pythoneda-domain";
-      url = "github:pythoneda-shared-git-def/shared/0.0.6";
+      url = "github:pythoneda-shared-git-def/shared/0.0.8";
     };
     pythoneda-shared-nix-flake-shared = {
       inputs.flake-utils.follows = "flake-utils";
@@ -38,7 +38,7 @@
         "pythoneda-shared-pythoneda-banner";
       inputs.pythoneda-shared-pythoneda-domain.follows =
         "pythoneda-shared-pythoneda-domain";
-      url = "github:pythoneda-shared-nix-flake-def/shared/0.0.8";
+      url = "github:pythoneda-shared-nix-flake-def/shared/0.0.10";
     };
     pythoneda-shared-pythoneda-application = {
       inputs.flake-utils.follows = "flake-utils";
@@ -47,7 +47,7 @@
         "pythoneda-shared-pythoneda-banner";
       inputs.pythoneda-shared-pythoneda-domain.follows =
         "pythoneda-shared-pythoneda-domain";
-      url = "github:pythoneda-shared-pythoneda-def/application/0.0.13";
+      url = "github:pythoneda-shared-pythoneda-def/application/0.0.15";
     };
     pythoneda-shared-pythoneda-banner = {
       inputs.flake-utils.follows = "flake-utils";
