@@ -30,6 +30,7 @@ python = "^@pythonMajorMinorVersion@"
 pythoneda-shared-git-shared = "^@pythonedaSharedGitShared@"
 pythoneda-shared-nix-flake-shared = "^@pythonedaSharedNixFlakeShared@"
 pythoneda-shared-pythoneda-application = "^@pythonedaSharedPythonedaApplication@"
+pythoneda-shared-pythoneda-banner = "^@pythonedaSharedPythonedaBanner@"
 pythoneda-shared-pythoneda-domain = "^@pythonedaSharedPythonedaDomain@"
 stringtemplate3 = "^@stringtemplate3@"
 

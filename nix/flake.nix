@@ -21,7 +21,7 @@
     "A simple tool to create dot files to represent the dependency graph of a given Nix flake";
   inputs = rec {
     flake-utils.url = "github:numtide/flake-utils/v1.0.0";
-    nixos.url = "github:NixOS/nixpkgs/nixos-23.05";
+    nixos.url = "github:NixOS/nixpkgs/23.05";
     pythoneda-shared-git-shared = {
       inputs.flake-utils.follows = "flake-utils";
       inputs.nixos.follows = "nixos";
@@ -52,7 +52,7 @@
     pythoneda-shared-pythoneda-banner = {
       inputs.flake-utils.follows = "flake-utils";
       inputs.nixos.follows = "nixos";
-      url = "github:pythoneda-shared-pythoneda-def/banner/0.0.27";
+      url = "github:pythoneda-shared-pythoneda-def/banner/0.0.37";
     };
     pythoneda-shared-pythoneda-domain = {
       inputs.flake-utils.follows = "flake-utils";
@@ -79,7 +79,7 @@
       let
         org = "rydnr";
         repo = "nix-flake-to-graphviz";
-        version = "0.0.9";
+        version = "0.0.30";
         pname = "${org}-${repo}";
         pythonpackage = "rydnr.nix.flake.graphviz";
         package = builtins.replaceStrings [ "." ] [ "/" ] pythonpackage;
@@ -121,15 +121,16 @@
               authors = builtins.concatStringsSep ","
                 (map (item: ''"${item}"'') maintainers);
               desc = description;
-              inherit homepage pname pythonMajorMinorVersion pythonpackage
-                version;
-              package = builtins.replaceStrings [ "." ] [ "/" ] pythonpackage;
+              inherit homepage package pname pythonMajorMinorVersion
+                pythonpackage version;
               packaging = python.pkgs.packaging.version;
               pythonedaSharedGitShared = pythoneda-shared-git-shared.version;
               pythonedaSharedNixFlakeShared =
                 pythoneda-shared-nix-flake-shared.version;
               pythonedaSharedPythonedaApplication =
                 pythoneda-shared-pythoneda-application.version;
+              pythonedaSharedPythonedaBanner =
+                pythoneda-shared-pythoneda-banner.version;
               pythonedaSharedPythonedaDomain =
                 pythoneda-shared-pythoneda-domain.version;
               src = pyprojectTemplateFile;
@@ -173,6 +174,7 @@
               pythoneda-shared-git-shared
               pythoneda-shared-nix-flake-shared
               pythoneda-shared-pythoneda-application
+              pythoneda-shared-pythoneda-banner
               pythoneda-shared-pythoneda-domain
               stringtemplate3
             ];
