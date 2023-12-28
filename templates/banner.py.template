@@ -63,7 +63,7 @@ class @banner_class@(Banner):
         result = []
         result.append(f"                \033[32m_\033[0m")
         result.append(f"\033[37mGPLv3       \033[35m{self._pythoneda_dep_count:>3}\033[32m| |\033[36m{self._dep_count}               \033[37m(c) 2023-today acm-sl.com\033[0m")
-        result.append(f"\033[31m _ __ \033[35m_   _ \033[0m \033[32m__| |\033[34m_ __  \033[33m_ __       \033[36mhttps://pythoneda.github.io\033[0m\033[0m")
+        result.append(f"\033[31m _ __ \033[35m_   _ \033[0m \033[32m__| |\033[34m_ __  \033[33m_ __       \033[36mhttps://pythoneda.github.io\033[0m")
         result.append(f"\033[31m| '__|\033[35m | | |\033[32m/ _` |\033[34m '_ \\\033[33m| '__|      \033[33mhttps://github.com/{self.org}/{self.repo}/tree/{self.tag}\033[0m")
         result.append(f"\033[31m| |  \033[35m| |_| |\033[0m \033[32m(_| |\033[34m | | |\033[33m |         \033[34mhttps://github.com/{self.org}\033[0m")
         result.append(f"\033[31m|_|  \033[0m \033[35m\__, |\\\033[0m\033[32m__,_|\033[34m_| |_|\033[33m_|         \033[35mhttps://github.com/nixos/nixpkgs/tree/{self.nixpkgs_release}\033[0m")

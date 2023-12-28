@@ -20,7 +20,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 from .nix_flake_metadata_decorator import NixFlakeMetadataDecorator
 import os
-from pathlib import Path
 from pythoneda import EventListener, listen, primary_key_attribute
 from pythoneda.shared.nix_flake import NixFlakeMetadata
 from rydnr.nix.flake.graphviz.events import DotRequested
@@ -68,7 +67,6 @@ class Dot(EventListener):
         :return: The label.
         :rtype: str
         """
-        result = None
         if version is None:
             result = node
         else:
@@ -113,8 +111,6 @@ class Dot(EventListener):
         :return: A dot-formatted representation of the Nix flake dependiencies.
         :rtype: str
         """
-        root_template = None
-
         with open(self._get_template_path("dot.stg"), "r", encoding="utf-8") as f:
             # Create a group from the string content
             group = StringTemplateGroup(name="graph", file=f, rootDir="templates")
