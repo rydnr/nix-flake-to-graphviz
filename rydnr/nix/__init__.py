@@ -1,3 +1,4 @@
+# vim: set fileencoding=utf-8
 """
 rydnr/nix/__init__.py
 

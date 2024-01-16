@@ -1,3 +1,4 @@
+# vim: set fileencoding=utf-8
 """
 rydnr/nix/flake/graphviz/__init__.py
 

@@ -1,3 +1,4 @@
+# vim: set fileencoding=utf-8
 """
 rydnr/nix/flake/graphviz/infrastructure/cli/dot_requested_cli.py
 
@@ -19,7 +20,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 import argparse
-from pythoneda import BaseObject, PrimaryPort
+from pythoneda.shared import BaseObject, PrimaryPort
 from rydnr.nix.flake.graphviz.events import DotRequested
 
 
@@ -34,7 +35,7 @@ class DotRequestedCli(BaseObject, PrimaryPort):
         - Parse the command-line to retrieve the information to build a DotRequested event.
 
     Collaborators:
-        - PythonEDA subclasses: They are notified back with the information retrieved from the command line.
+        - pythoneda.shared.application.PythonEDA: It is notified back with the information retrieved from the command line.
     """
 
     def priority(self) -> int:

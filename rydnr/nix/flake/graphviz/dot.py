@@ -1,3 +1,4 @@
+# vim: set fileencoding=utf-8
 """
 rydnr/nix/flake/graphviz/dot.py
 
@@ -20,7 +21,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 from .nix_flake_metadata_decorator import NixFlakeMetadataDecorator
 import os
-from pythoneda import EventListener, listen, primary_key_attribute
+from pythoneda.shared import EventListener, listen, primary_key_attribute
 from pythoneda.shared.nix_flake import NixFlakeMetadata
 from rydnr.nix.flake.graphviz.events import DotRequested
 from stringtemplate3 import StringTemplateGroup

@@ -1,3 +1,4 @@
+# vim: set fileencoding=utf-8
 """
 rydnr/nix/flake/graphviz/nix_flake_to_graphviz.py
 
@@ -19,7 +20,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 import asyncio
-from pythoneda.application import PythonEDA
+from pythoneda.shared.application import PythonEDA
 
 
 class NixFlakeToGraphviz(PythonEDA):
