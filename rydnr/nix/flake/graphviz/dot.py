@@ -22,7 +22,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 from .nix_flake_metadata_decorator import NixFlakeMetadataDecorator
 import os
 from pythoneda.shared import EventListener, listen, primary_key_attribute
-from pythoneda.shared.nix_flake import NixFlakeMetadata
+from pythoneda.shared.nix.flake import NixFlakeMetadata
 from rydnr.nix.flake.graphviz.events import DotRequested
 from stringtemplate3 import StringTemplateGroup
 from typing import Dict
@@ -108,7 +108,7 @@ class Dot(EventListener):
         """
         Converts given flake metadata to dot format.
         :param metadata: The Nix flake metadata.
-        :type metadata: pythoneda.shared.nix_flake.NixFlakeMetadata
+        :type metadata: pythoneda.shared.nix.flake.NixFlakeMetadata
         :return: A dot-formatted representation of the Nix flake dependiencies.
         :rtype: str
         """

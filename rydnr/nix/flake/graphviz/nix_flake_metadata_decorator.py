@@ -20,7 +20,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 from pythoneda.shared import primary_key_attribute, ValueObject
-from pythoneda.shared.nix_flake import (
+from pythoneda.shared.nix.flake import (
     NixFlakeInput,
     NixFlakeInputRelationship,
     NixFlakeMetadata,
@@ -54,7 +54,7 @@ class NixFlakeMetadataDecorator(ValueObject):
         """
         Retrieves the decorated NixFlakeMetadata.
         :return: Such instance.
-        :rtype: pythoneda.shared.nix_flake.NixFlakeMetadata
+        :rtype: pythoneda.shared.nix.flake.NixFlakeMetadata
         """
         return self._metadata
 
@@ -72,7 +72,7 @@ class NixFlakeMetadataDecorator(ValueObject):
         """
         Retrieves the direct dependencies.
         :return: The list of direct dependencies.
-        :rtype: List[pythoneda.shared.nix_flake.NixFlakeInput]
+        :rtype: List[pythoneda.shared.nix.flake.NixFlakeInput]
         """
         return self.metadata.inputs()
 
@@ -81,7 +81,7 @@ class NixFlakeMetadataDecorator(ValueObject):
         """
         Retrieves the direct dependencies with no duplicates.
         :return: The list of inputs with no duplicates.
-        :rtype: List[pythoneda.shared.nix_flake.NixFlakeInput]
+        :rtype: List[pythoneda.shared.nix.flake.NixFlakeInput]
         """
         return self.metadata.inputs_with_no_duplicates()
 
@@ -90,7 +90,7 @@ class NixFlakeMetadataDecorator(ValueObject):
         """
         Retrieves the direct dependencies with duplicates sharing the same version.
         :return: The list of inputs with duplicates with the same version.
-        :rtype: List[pythoneda.shared.nix_flake.NixFlakeInput]
+        :rtype: List[pythoneda.shared.nix.flake.NixFlakeInput]
         """
         return self.metadata.inputs_with_duplicates_with_same_version()
 
@@ -99,7 +99,7 @@ class NixFlakeMetadataDecorator(ValueObject):
         """
         Retrieves the direct dependencies with duplicates with different versions.
         :return: The list of inputs with duplicates with different version.
-        :rtype: List[pythoneda.shared.nix_flake.NixFlakeInput]
+        :rtype: List[pythoneda.shared.nix.flake.NixFlakeInput]
         """
         return self.metadata.inputs_with_duplicates_with_different_versions()
 
@@ -108,7 +108,7 @@ class NixFlakeMetadataDecorator(ValueObject):
         """
         Retrieves the indirect dependencies with no duplicates.
         :return: The list of indirect inputs with no duplicates.
-        :rtype: List[pythoneda.shared.nix_flake.NixFlakeInput]
+        :rtype: List[pythoneda.shared.nix.flake.NixFlakeInput]
         """
         return self.metadata.indirect_inputs_with_no_duplicates()
 
@@ -117,7 +117,7 @@ class NixFlakeMetadataDecorator(ValueObject):
         """
         Retrieves the indirect dependencies with duplicates sharing the same version.
         :return: The list of indirect inputs with duplicates with the same version.
-        :rtype: List[pythoneda.shared.nix_flake.NixFlakeInput]
+        :rtype: List[pythoneda.shared.nix.flake.NixFlakeInput]
         """
         self.metadata.indirect_inputs_with_duplicates_with_same_version()
         return self.metadata.indirect_inputs_with_duplicates_with_same_version()
@@ -129,7 +129,7 @@ class NixFlakeMetadataDecorator(ValueObject):
         """
         Retrieves the indirect dependencies with duplicates with different versions.
         :return: The list of indirect inputs with duplicates with different versions.
-        :rtype: List[pythoneda.shared.nix_flake.NixFlakeInput]
+        :rtype: List[pythoneda.shared.nix.flake.NixFlakeInput]
         """
         return self.metadata.indirect_inputs_with_duplicates_with_different_versions()
 
@@ -138,7 +138,7 @@ class NixFlakeMetadataDecorator(ValueObject):
         """
         Retrieves the list of relationships between inputs.
         :return: Such list.
-        :rtype: List[pythoneda.shared.nix_flake.NixFlakeInputRelationship]
+        :rtype: List[pythoneda.shared.nix.flake.NixFlakeInputRelationship]
         """
         return self.metadata.all_relationships()
 
@@ -147,6 +147,6 @@ class NixFlakeMetadataDecorator(ValueObject):
         """
         Retrieves a list of relationships linking dependencies with duplicates.
         :return: Such list.
-        :rtype: List[pythoneda.shared.nix_flake.NixFlakeInputRelationship]
+        :rtype: List[pythoneda.shared.nix.flake.NixFlakeInputRelationship]
         """
         return self.metadata.relationships_for_duplicated_nodes()
