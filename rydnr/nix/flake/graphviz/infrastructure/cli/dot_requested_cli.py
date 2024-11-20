@@ -19,13 +19,14 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
-import argparse
-from pythoneda.shared import BaseObject, PrimaryPort
+from argparse import ArgumentParser
+from pythoneda.shared import PrimaryPort
+from pythoneda.shared.application import PythonEDA
+from pythoneda.shared.infrastructure.cli import CliHandler
 from rydnr.nix.flake.graphviz.events import DotRequested
 
 
-class DotRequestedCli(BaseObject, PrimaryPort):
-
+class DotRequestedCli(CliHandler, PrimaryPort):
     """
     A PrimaryPort used to inject a DotRequested into nix-flake-to-graphviz application.
 
@@ -38,6 +39,15 @@ class DotRequestedCli(BaseObject, PrimaryPort):
         - pythoneda.shared.application.PythonEDA: It is notified back with the information retrieved from the command line.
     """
 
+    def __init__(self):
+        """
+        Creates a new DotRequestedCli instance.
+        """
+        super().__init__(
+            "Creates a dot file representing the dependency graph of a Nix flake"
+        )
+
+    @classmethod
     def priority(self) -> int:
         """
         Retrieves the priority of this port.
@@ -59,16 +69,12 @@ class DotRequestedCli(BaseObject, PrimaryPort):
         """
         return True
 
-    async def accept(self, app):
+    def add_arguments(self, parser: ArgumentParser):
         """
-        Processes the command specified from the command line.
-        :param app: The PythonEDA instance.
-        :type app: PythonEDA
+        Defines the specific CLI arguments.
+        :param parser: The parser.
+        :type parser: argparse.ArgumentParser
         """
-        parser = argparse.ArgumentParser(
-            description="Creates a dot file representing the dependency graph of a Nix flake"
-        )
-
         parser.add_argument(
             "-f",
             "--flake-ref",
@@ -79,6 +85,13 @@ class DotRequestedCli(BaseObject, PrimaryPort):
             "-o", "--output-file", required=True, help="The output file"
         )
 
-        args, unknown_args = parser.parse_known_args()
-
+    async def handle(self, app: PythonEDA, args):
+        """
+        Processes the command specified from the command line.
+        :param app: The PythonEDA instance.
+        :type app: pythoneda.shared.application.PythonEDA
+        :param args: The CLI args.
+        :type args: argparse.args
+        """
+        print(f"sending {args}")
         await app.accept(DotRequested(args.flake_ref, args.output_file))

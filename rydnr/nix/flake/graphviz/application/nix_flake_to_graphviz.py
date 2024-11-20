@@ -20,9 +20,11 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 import asyncio
-from pythoneda.shared.application import PythonEDA
+from pythoneda.shared.application import PythonEDA, enable
+from rydnr.nix.flake.graphviz.infrastructure.cli import DotRequestedCli
 
 
+@enable(DotRequestedCli)
 class NixFlakeToGraphviz(PythonEDA):
     """
     Runs the NixFlakeToGraphviz PythonEDA app.

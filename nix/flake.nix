@@ -79,7 +79,7 @@
       let
         org = "rydnr";
         repo = "nix-flake-to-graphviz";
-        version = "0.0.36";
+        version = "0.0.37";
         pname = "${org}-${repo}";
         pythonpackage = "rydnr.nix.flake.graphviz";
         package = builtins.replaceStrings [ "." ] [ "/" ] pythonpackage;

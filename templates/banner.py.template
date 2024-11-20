@@ -66,7 +66,7 @@ class @banner_class@(Banner):
         result.append(f"\033[31m _ __ \033[35m_   _ \033[0m \033[32m__| |\033[34m_ __  \033[33m_ __       \033[36mhttps://pythoneda.github.io\033[0m")
         result.append(f"\033[31m| '__|\033[35m | | |\033[32m/ _` |\033[34m '_ \\\033[33m| '__|      \033[33mhttps://github.com/{self.org}/{self.repo}/tree/{self.tag}\033[0m")
         result.append(f"\033[31m| |  \033[35m| |_| |\033[0m \033[32m(_| |\033[34m | | |\033[33m |         \033[34mhttps://github.com/{self.org}\033[0m")
-        result.append(f"\033[31m|_|  \033[0m \033[35m\__, |\\\033[0m\033[32m__,_|\033[34m_| |_|\033[33m_|         \033[35mhttps://github.com/nixos/nixpkgs/tree/{self.nixpkgs_release}\033[0m")
+        result.append(f"\033[31m|_|  \033[0m \033[35m\\__, |\\\033[0m\033[32m__,_|\033[34m_| |_|\033[33m_|         \033[35mhttps://github.com/nixos/nixpkgs/tree/{self.nixpkgs_release}\033[0m")
         result.append(f"    \033[37mA  \033[35m__/ |{' '*line1_first_half}\033[34m{self.org.upper()}{' '*line1_second_half}\033[32mhttps://docs.python.org/{self.python_version}\033[0m")
         result.append(f"      \033[35m|___/{' '*line2_first_half}\033[33m{self.repo.upper()}{' '*line2_second_half}\033[37mhttps://patreon.com/rydnr\033[0m")
         result.append("")
