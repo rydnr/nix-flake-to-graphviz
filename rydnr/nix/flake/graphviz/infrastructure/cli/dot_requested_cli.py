@@ -93,5 +93,4 @@ class DotRequestedCli(CliHandler, PrimaryPort):
         :param args: The CLI args.
         :type args: argparse.args
         """
-        print(f"sending {args}")
         await app.accept(DotRequested(args.flake_ref, args.output_file))

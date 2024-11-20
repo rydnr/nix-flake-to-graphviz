@@ -5,13 +5,13 @@ A simple tool to create dot files to represent the dependency graph of a given N
 ## How to run it
 
 ``` sh
-nix run https://github.com/rydnr/nix-flake-to-graphviz/[version]?dir=nix
+nix run github:rydnr/nix-flake-to-graphviz?dir=nix
 ```
 
 ### Usage
 
 ``` sh
-nix run https://github.com/rydnr/nix-flake-to-graphviz/[version]?dir=nix [-h|--help] [-f|--flake-folder folder] [-o|--output-file file]
+nix run github:rydnr/nix-flake-to-graphviz?dir=nix -- [-h|--help] [-f|--flake-folder folder] [-o|--output-file file]
 ```
 - `-h|--help`: Prints the usage.
 - `-f|--flake-folder`: The folder with the Nix flake to analyze.
