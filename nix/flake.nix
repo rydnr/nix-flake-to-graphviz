@@ -79,7 +79,7 @@
       let
         org = "rydnr";
         repo = "nix-flake-to-graphviz";
-        version = "0.0.32";
+        version = "0.0.36";
         pname = "${org}-${repo}";
         pythonpackage = "rydnr.nix.flake.graphviz";
         package = builtins.replaceStrings [ "." ] [ "/" ] pythonpackage;
@@ -197,7 +197,10 @@
                 --replace "@PYTHONEDA_EXTRA_NAMESPACES@" "rydnr" \
                 --replace "@PYTHONPATH@" "$PYTHONPATH" \
                 --replace "@CUSTOM_CONTENT@" "" \
+                --replace "@PYTHONEDA_SHARED_PYTHONLANG_DOMAIN@" "${pythoneda-shared-pythonlang-domain}" \
+                --replace "@PACKAGE@" "$out/lib/python${pythonMajorMinorVersion}/site-packages" \
                 --replace "@ENTRYPOINT@" "$out/lib/python${pythonMajorMinorVersion}/site-packages/${package}/application/${entrypoint}.py" \
+                --replace "@PYTHON_ARGS@" "" \
                 --replace "@BANNER@" "$out/bin/banner.sh"
             '';
 
