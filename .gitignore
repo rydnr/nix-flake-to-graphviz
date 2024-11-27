@@ -6,3 +6,6 @@ lib/
 lib64
 pyvenv.cfg
 result
+*.sh
+*.png
+*.dot
