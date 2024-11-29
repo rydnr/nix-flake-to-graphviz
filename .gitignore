@@ -9,3 +9,6 @@ result
 *.sh
 *.png
 *.dot
+deps.txt
+deps.dot
+deps.png
